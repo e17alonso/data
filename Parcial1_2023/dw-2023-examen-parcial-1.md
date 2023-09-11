@@ -55,6 +55,25 @@ Indicaciones generales:
 | FR   | 4,332    |
 | ROW  | 943      |
 
+R= La granularidad es el nivel de detalle de los datos.La agregación es
+el proceso de combinar datos de diferentes niveles de granularidad para
+crear un mejor conjunto de datos.
+
+Por ejemplo un conjunto de datos que contiene la información de todas
+las ventas de una tienda como el ID, la fecha de la venta, precio, etc.
+Este conjunto de datos es de gran granularidad, ya que contiene mucha
+información detallada sobre cada venta. Se debe agregar los datos de las
+ventas de cada producto para obtener un recuento del total de ventas por
+producto para mostrar el total de ventas por producto. Esto significa
+combinar los datos de todas las ventas que se realizaron del mismo
+producto. La granularidad para generar el reporte es el nivel de
+producto.
+
+El nivel de granularidad del reporte que se muestra es país. Esto
+significa que los datos han sido agregados al nivel de país. Para
+generar este reporte, se combinaron los datos de todos los usuarios que
+residen en el mismo país.
+
 ## Sección I: Preguntas teóricas. (50pts)
 
 - Existen 10 preguntas directas en este Rmarkdown, de las cuales usted
@@ -233,5 +252,5 @@ parcial_anonimo %>%
     ## # ℹ 69 more rows
 
 ``` r
-#Debemos deshacernos de los territorios con perdidas 
+#Debemos deshacernos de los territorios con perdidas mayores a 5k```
 ```
