@@ -1,0 +1,146 @@
+---
+title: "dw-2023-parcial-1"
+author: "Tepi"
+date: "9/11/2023"
+output: rmarkdown::github_document
+
+---
+
+# Examen parcial
+
+Indicaciones generales:
+
+* Usted tiene el período de la clase para resolver el examen parcial.
+* La entrega del parcial, al igual que las tareas, es por medio de su cuenta de github, pegando el link en el portal de MiU.
+
+
+* Pueden hacer uso del material del curso e internet (stackoverflow, etc.). Sin embargo, si encontramos algún indicio de copia, se anulará el exámen para los estudiantes involucrados. Por lo tanto, aconsejamos no compartir las agregaciones que generen.
+
+## Sección 0: Preguntas de temas vistos en clase (20pts)
+
+* Responda las siguientes preguntas de temas que fueron tocados en clase. 
+
+1. ¿Qué es una ufunc y por qué debemos de utilizarlas cuando programamos trabajando datos?
+R= Es una función vectorial que se aplica a cada elemento de un vector y se recomienda utilizarlas porque son mas eficientes.
+
+2. Es una técnica en programación numérica que amplía los objetos que son de menor dimensión para que sean compatibles con los de mayor dimensión. Describa cuál es la técnica y de un breve ejemplo en R.
+R= Broadcasting. Por ejemplo, si tenemos dos objetos de diferente dimension y los queremos sumar se puede hacer mediante el operador +, esto hace que la dimension del objeto menor se amplie para ser compatible con el objeto de mayor dimension. 
+
+3. ¿Qué es el axioma de elegibilidad y por qué es útil al momento de hacer análisis de datos? 
+R= Consiste en que un conjunto de datos debe ser representativo de la población de la cual se desea estudiar. Lo que significaaque las características de los datos deben ser similares a las características de la población. Esto es muy útil ya que garantiza que los datos sean válidos
+
+4. Cuál es la relación entre la granularidad y la agregación de datos? Mencione un breve ejemplo. Luego, exploque cuál es la granularidad o agregación requerida para poder generar un reporte como el siguiente:
+
+|Pais | Usuarios |
+|-----|----------|
+|US   | 1,934    |
+|UK   | 2,133    |
+|DE   | 1,234    |
+|FR   | 4,332    |
+|ROW  | 943      |
+
+
+
+## Sección I: Preguntas teóricas. (50pts)
+
+* Existen 10 preguntas directas en este Rmarkdown, de las cuales usted deberá responder 5. Las 5 a responder estarán determinadas por un muestreo aleatorio basado en su número de carné.
+
+* Ingrese su número de carné en  `set.seed()` y corra el chunk de R para determinar cuáles preguntas debe responder.
+
+
+```{r, echo=TRUE, cache=TRUE}
+
+set.seed("20210421") 
+v<- 1:10
+preguntas <-sort(sample(v, size = 5, replace = FALSE ))
+
+paste0("Mis preguntas a resolver son: ",paste0(preguntas,collapse = ", "))
+
+```
+
+
+### Listado de preguntas teóricas
+
+1. Para las siguientes sentencias de `base R`, liste su contraparte de `dplyr`:
+    * `str()` - glimpse()
+    * `df[,c("a","b")]` - select()
+    * `names(df)[4] <- "new_name"` donde la posición 4 corresponde a la variable `old_name` - rename()
+    * `df[df$variable == "valor",]` -  filter()
+    
+    
+2. Al momento de filtrar en SQL, ¿cuál keyword cumple las mismas funciones que el keyword `OR`  para filtrar uno o más elementos una misma columna?
+3. ¿Por qué en R utilizamos funciones de la familia apply (lapply,vapply) en lugar de utilizar ciclos? 
+R= Para aplicar una misma función a todos los elementos dentro de una lista. Se utiliza en vez de los ciclos ya que son menos eficientes, además que lapply tiene más flexibilidad en cuanto a las funciones que se pueden aplicar.
+4. ¿Cuál es la diferencia entre utilizar `==` y `=` en R?
+5. ¿Cuál es la forma correcta de cargar un archivo de texto donde el delimitador es `:`?
+6. ¿Qué es un vector y en qué se diferencia en una lista en R?
+R= Los elementos del vector deben ser de un mismo tipo, mientras que los elementos de una lista en R pueden ser de diferente tipo
+7. ¿Qué pasa si quiero agregar una nueva categoría a un factor que no se encuentra en los niveles existentes?
+8. Si en un dataframe, a una variable de tipo `factor` le agrego un nuevo elemento que *no se encuentra en los niveles existentes*, ¿cuál sería el resultado esperado y por qué?
+    * El nuevo elemento
+    * `NA`
+9. En SQL, ¿para qué utilizamos el keyword `HAVING`?
+R= HAVING  se utiliza en sql para filtrar acorde a ciertas condiciones, pero a diferencia de WHERE, esta aplica grupos en su totalidad.
+10. Si quiero obtener como resultado las filas de la tabla A que no se encuentran en la tabla B, ¿cómo debería de completar la siguiente sentencia de SQL?
+
+    * SELECT * FROM A _______ B ON A.KEY = B.KEY WHERE __________ = __________
+  
+r=    * SELECT * FROM A LEFT JOIN B ON A.KEY = B.KEY WHERE B.KEY IS NULL
+  
+Extra: ¿Cuántos posibles exámenes de 5 preguntas se pueden realizar utilizando como banco las diez acá presentadas?
+(responder con código de R.)
+
+
+## Sección II Preguntas prácticas. (30pts)
+
+
+* Conteste las siguientes preguntas utilizando sus conocimientos de R. Adjunte el código que utilizó para llegar a sus conclusiones en un chunk del markdown.
+
+A. De los clientes que están en más de un país,¿cuál cree que es el más rentable y por qué?
+
+B. Estrategia de negocio ha decidido que ya no operará en aquellos territorios cuyas pérdidas sean "considerables". Bajo su criterio, ¿cuáles son estos territorios y por qué ya no debemos operar ahí?
+
+
+
+
+
+
+
+
+### I. Preguntas teóricas
+
+
+## A
+
+```{r cache=TRUE}
+###resuelva acá
+
+library(dplyr)
+parcial_anonimo <- readRDS("C:/Users/Alonso/Downloads/Parcial1_2023/parcial_anonimo.rds")
+parcial_anonimo %>%
+  select(Cliente, Venta, Pais) %>%
+  group_by(Cliente) %>%
+  summarise(n=n_distinct(Pais), Ventas=sum(Venta)) %>%
+  filter(n>1) %>%
+  arrange(desc(Ventas))
+
+#El cliente que es más rentable que se encuentre en diferentes paaíses es a17a7558 porque es el que mayor ingresos genera a través de las ventas
+```
+
+
+
+
+## B
+
+```{r }
+###resuelva acá
+library(dplyr)
+parcial_anonimo %>%
+  filter(Venta<0) %>%
+  group_by(Territorio) %>%
+  summarise(n=sum(Venta)) %>%
+  arrange((n))
+
+#Debemos deshacernos de los territorios con perdidas 
+```
+
