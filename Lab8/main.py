@@ -165,7 +165,7 @@ df1['Embarked'] = df1['Embarked'].replace({'C': 0, 'S': 1, 'Q': 2})
 scaler = StandardScaler()
 # Ajustar el escalador a los datos y transformar el DataFrame
 df_scaled = pd.DataFrame(scaler.fit_transform(df_copy), columns=df_copy.columns)
-df_scaled1= pd.DataFrame(scaler.fit_transform(df1), columns=df1)
+df_scaled1= pd.DataFrame(scaler.fit_transform(df1), columns=df1.columns)
 # df_scaled ahora contiene las columnas normalizadas
 print('Standarization')
 print(df_scaled)
@@ -173,16 +173,29 @@ print(df_scaled)
 scaler = MinMaxScaler()
 # Ajustar el escalador a los datos y transformar el DataFrame
 df_scaled = pd.DataFrame(scaler.fit_transform(df_copy), columns=df_copy.columns)
+df_scaled1= pd.DataFrame(scaler.fit_transform(df1), columns=df1.columns)
 # df_scaled ahora contiene las columnas normalizadas
 print(df_scaled)
 
 scaler = MaxAbsScaler()
 # Ajustar el escalador a los datos y transformar el DataFrame
 df_scaled = pd.DataFrame(scaler.fit_transform(df_copy), columns=df_copy.columns)
+df_scaled1= pd.DataFrame(scaler.fit_transform(df1), columns=df1.columns)
+
 # df_scaled ahora contiene las columnas normalizadas
 print(df_scaled)
 
 '''
 Ejercicio 2
 
+El método que más se acerco fue el de MinMaxScaling
+
+El metodo de Standarization es útil cuando trabajas con algoritmos sensibles a la magnitud 
+y varianza de las características, como la regresión lineal, SVM y k-means.
+
+El método MaxMinScaling es útil cuando Útil cuando deseas que todos los valores estén dentro 
+de un rango específico (por defecto, [0, 1]).
+
+El método MaxAbsScaler conviene cuando deseas mantener la magnitud relativa de los valores, 
+sin preocuparte por los signos.
 '''
