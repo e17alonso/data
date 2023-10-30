@@ -65,10 +65,10 @@ columnas_a_excluir = ['PassengerId', 'Name', 'Ticket', 'Cabin']
 
 df_copy = df.copy()
 df_copy=df_copy.drop(columnas_a_excluir, axis=1)
-# Rellenar las columnas de las variables independientes con imputacion por moda
-mode_age = df_copy['Age'].mode()[0]
-mode_sibsp = df_copy['SibSp'].mode()[0]
-mode_parch = df_copy['Parch'].mode()[0]
+# Rellenar las columnas de las variables independientes con imputacion por moda o mediana
+mode_age = df_copy['Age'].mean()
+mode_sibsp = df_copy['SibSp'].median()
+mode_parch = df_copy['Parch'].median()
 mode_embarked = df_copy['Embarked'].mode()[0]
 mode_fare = df_copy['Sex'].mode()[0]
 
@@ -98,6 +98,7 @@ predictions = model.predict(X_test)
 
 # Asignar las predicciones a las filas con valores faltantes en 'Sex' en df_copy
 df_copy.loc[df_copy['Fare'].isna(), 'Fare'] = predictions
+print('Regresión lineal')
 print(df_copy)
 #Outliers percentile approach
 
@@ -150,5 +151,38 @@ enfoque estadísticamente robusto.
 '''
 Parte 2
 '''
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MaxAbsScaler
+'''
+Ejercicio 1
+'''
+df1= pd.read_csv('titanic.csv')
+df1=df1.drop(columnas_a_excluir,axis=1)
+df1['Sex'] = df1['Sex'].replace({'male': 0, 'female': 1})
+df1['Embarked'] = df1['Embarked'].replace({'C': 0, 'S': 1, 'Q': 2})
 
-'''Ejercicio 1'''
+scaler = StandardScaler()
+# Ajustar el escalador a los datos y transformar el DataFrame
+df_scaled = pd.DataFrame(scaler.fit_transform(df_copy), columns=df_copy.columns)
+df_scaled1= pd.DataFrame(scaler.fit_transform(df1), columns=df1)
+# df_scaled ahora contiene las columnas normalizadas
+print('Standarization')
+print(df_scaled)
+
+scaler = MinMaxScaler()
+# Ajustar el escalador a los datos y transformar el DataFrame
+df_scaled = pd.DataFrame(scaler.fit_transform(df_copy), columns=df_copy.columns)
+# df_scaled ahora contiene las columnas normalizadas
+print(df_scaled)
+
+scaler = MaxAbsScaler()
+# Ajustar el escalador a los datos y transformar el DataFrame
+df_scaled = pd.DataFrame(scaler.fit_transform(df_copy), columns=df_copy.columns)
+# df_scaled ahora contiene las columnas normalizadas
+print(df_scaled)
+
+'''
+Ejercicio 2
+
+'''
